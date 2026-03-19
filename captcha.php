@@ -15,11 +15,37 @@ $height = imagesy($img);
 
 $font = 'c:/windows/fonts/arial.ttf';
 
-$line_color1 = imagecolorallocate($img, 0, 0, 0);      
-$line_color2 = imagecolorallocate($img, 50, 50, 50);  
-$pixel_color = imagecolorallocate($img, 80, 80, 80);
+$redIndex = rand(0, 4);
 
-// Рисуем линии черными оттенками
+$colors = [
+    imagecolorallocate($img, 0, 0, 255),
+    imagecolorallocate($img, 0, 128, 0),
+    imagecolorallocate($img, 255, 165, 0),
+    imagecolorallocate($img, 128, 0, 128),
+    imagecolorallocate($img, 255, 0, 255),
+    imagecolorallocate($img, 0, 255, 255),
+    imagecolorallocate($img, 255, 255, 0),
+    imagecolorallocate($img, 255, 0, 128),
+];
+
+for ($i = 0; $i < 5; $i++) {
+    $size = rand(16, 22);
+    $angle = rand(-10, 10);
+    $x = 15 + $i * 35;
+    $y = rand(25, 35);
+    
+    if ($i == $redIndex) {
+        $color = imagecolorallocate($img, 255, 0, 0);
+    } else {
+        $color = $colors[array_rand($colors)];
+    }
+    
+    imagettftext($img, $size, $angle, $x, $y, $color, $font, $code[$i]);
+}
+
+$line_color1 = imagecolorallocate($img, 0, 0, 0);
+$line_color2 = imagecolorallocate($img, 50, 50, 50);
+
 $lines = rand(5, 8);
 for ($i = 0; $i < $lines; $i++) {
     $color = ($i % 2 == 0) ? $line_color1 : $line_color2;
@@ -32,7 +58,10 @@ for ($i = 0; $i < $lines; $i++) {
         $color
     );
 }
+
 imagesetthickness($img, 1);
+
+$pixel_color = imagecolorallocate($img, 80, 80, 80);
 for ($i = 0; $i < 150; $i++) {
     imagesetpixel(
         $img,
@@ -40,34 +69,6 @@ for ($i = 0; $i < 150; $i++) {
         rand(0, $height),
         $pixel_color
     );
-}
-$redIndex = rand(0, 4);
-$colors = [
-    imagecolorallocate($img, 0, 0, 255),       // Синий
-    imagecolorallocate($img, 0, 128, 0),       // Зеленый
-    imagecolorallocate($img, 255, 165, 0),     // Оранжевый
-    imagecolorallocate($img, 128, 0, 128),     // Фиолетовый
-    imagecolorallocate($img, 255, 192, 203),    // Розовый
-    imagecolorallocate($img, 0, 255, 255),      // Голубой
-    imagecolorallocate($img, 255, 255, 0),      // Желтый
-    imagecolorallocate($img, 165, 42, 42),      // Коричневый
-];
-
-for ($i = 0; $i < 5; $i++) {
-    $size = rand(16, 22);
-    $angle = rand(-10, 10);
-    $x = 15 + $i * 35;
-    $y = rand(25, 35);
-    
-    if ($i == $redIndex) {
-        // Эта буква всегда красная
-        $color = imagecolorallocate($img, 255, 0, 0);
-    } else {
-        // Остальные буквы — случайные яркие цвета из массива
-        $color = $colors[array_rand($colors)];
-    }
-    
-    imagettftext($img, $size, $angle, $x, $y, $color, $font, $code[$i]);
 }
 
 imagejpeg($img);

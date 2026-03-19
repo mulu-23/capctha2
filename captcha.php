@@ -22,6 +22,8 @@ $pixel_color = imagecolorallocate($img, 80, 80, 80);
 $lines = rand(5, 8);
 for ($i = 0; $i < $lines; $i++) {
     $color = ($i % 2 == 0) ? $line_color1 : $line_color2;
+    $thickness = rand(1, 3);
+    imagesetthickness($img, $thickness);
     imageline(
         $img,
         rand(0, $width), rand(0, $height),
@@ -29,6 +31,8 @@ for ($i = 0; $i < $lines; $i++) {
         $color
     );
 }
+
+imagesetthickness($img, 1);
 
 for ($i = 0; $i < 150; $i++) {
     imagesetpixel(
